@@ -24,8 +24,8 @@ class Solution(object):
                         tree_dict[i].append(j)
                         nodes.remove(j)
                         next_parents.append(j)
-                parents = next_parents
-                next_parents[:] = []
+                parents = next_parents[:]
+                next_parents = []
 
         # bfs
         def BFS(head, tree, target):
@@ -54,14 +54,17 @@ class Solution(object):
             return children
 
         def isChild(potential_child, parent):
-            edit_dist = 0
-            for i in range(0,len(potential_child)):
-                if potential_child[i] != parent[i]:
-                    edit_dist += 1
-            if edit_dist == 1: # add to the tree/hashmap
+            if editDistance(potential_child, parent) == 1: # add to the tree/hashmap
                 return True
             else:
                 return False
+
+        def editDistance(node1, node2):
+            edit_dist = 0
+            for i in range(0,len(node1)):
+                if node1[i] != node2[i]:
+                    edit_dist += 1
+            return edit_dist
 
         # tree/hashmap init
         d = {i:[] for i in bank}
@@ -70,3 +73,6 @@ class Solution(object):
 
         # do a BFS from the start to find the shortest path
         return BFS(start, d, end)
+
+if __name__ == '__main__':
+    s = new Solution()
